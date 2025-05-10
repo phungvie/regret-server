@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: regret-server
+  datasource:
+    url: jdbc:postgresql://localhost:5432/regret # ???ng d?n k?t n?i t?i PostgreSQL
+    username: postgres                                # Tên ??ng nh?p PostgreSQL
+    password: postgresVIET@regret                                # M?t kh?u c?a tài kho?n PostgreSQL
+    driver-class-name: org.postgresql.Driver          # Driver JDBC cho PostgreSQL
+
+  jpa:
+    hibernate:
+      ddl-auto: update                                # Ch? ?? t?o b?ng: update, create, create-drop, validate
+    show-sql: true                                    # Hi?n th? câu l?nh SQL trong console
+    properties:
+      hibernate:
+        format_sql: true                              # Format SQL cho d? ??c
+        dialect: org.hibernate.dialect.PostgreSQLDialect # S? d?ng PostgreSQLDialect
+
+  sql:
+    init:
+      mode: always                                    # Ch? ?? t? ??ng ch?y file schema.sql và data.sql khi ?ng d?ng kh?i ??ng
+      encoding: UTF-8                                 # Thi?t l?p encoding ?? tránh l?i font
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG                          # Hi?n th? câu SQL d??i d?ng DEBUG log
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE # Hi?n th? chi ti?t các giá tr? ???c bind vào SQL
