@@ -15,15 +15,19 @@ spring:
       hibernate:
         format_sql: true                              # Format SQL cho d? ??c
         dialect: org.hibernate.dialect.PostgreSQLDialect # S? d?ng PostgreSQLDialect
+        default_schema: regret_sch
 
   sql:
     init:
       mode: always                                    # Ch? ?? t? ??ng ch?y file schema.sql v� data.sql khi ?ng d?ng kh?i ??ng
       encoding: UTF-8                                 # Thi?t l?p encoding ?? tr�nh l?i font
-#      schema-locations: classpath:schema.sql  # Chỉ định vị trí file schema.sql
-#      data-locations: classpath:data.sql      # Chỉ định vị trí file data.sql
+#        schema-locations: classpath:schema.sql  # Chỉ định vị trí file schema.sql
+#        data-locations: classpath:data.sql      # Chỉ định vị trí file data.sql
+
+# Kích hoạt Flyway migration
   flyway:
-    enabled: false
+    enabled: false                               # K?t n?i t?i Flyway
+    locations: classpath:db/migration
 
 logging:
   level:
@@ -33,5 +37,5 @@ logging:
 
 idp:
   url: http://localhost:8090
-#  client-id: regret_id
-#  client-secret: hFQVSwkSjiS7Sglf3FgQOO51n12otTwG
+  client-id: regret_id
+  client-secret: hFQVSwkSjiS7Sglf3FgQOO51n12otTwG
