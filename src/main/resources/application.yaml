@@ -2,15 +2,15 @@ spring:
   application:
     name: regret-server
   datasource:
-    url: jdbc:postgresql://localhost:5432/regret # ???ng d?n k?t n?i t?i PostgreSQL
-    username: postgres                                # Tên ??ng nh?p PostgreSQL
-    password: postgresVIET@regret                                # M?t kh?u c?a tài kho?n PostgreSQL
+    url: jdbc:postgresql://localhost:5432/regret_db # ???ng d?n k?t n?i t?i PostgreSQL
+    username: postgres                                # Tï¿½n ??ng nh?p PostgreSQL
+    password: postgresVIET@regret                                # M?t kh?u c?a tï¿½i kho?n PostgreSQL
     driver-class-name: org.postgresql.Driver          # Driver JDBC cho PostgreSQL
 
   jpa:
     hibernate:
       ddl-auto: update                                # Ch? ?? t?o b?ng: update, create, create-drop, validate
-    show-sql: true                                    # Hi?n th? câu l?nh SQL trong console
+    show-sql: true                                    # Hi?n th? cï¿½u l?nh SQL trong console
     properties:
       hibernate:
         format_sql: true                              # Format SQL cho d? ??c
@@ -18,10 +18,20 @@ spring:
 
   sql:
     init:
-      mode: always                                    # Ch? ?? t? ??ng ch?y file schema.sql và data.sql khi ?ng d?ng kh?i ??ng
-      encoding: UTF-8                                 # Thi?t l?p encoding ?? tránh l?i font
+      mode: always                                    # Ch? ?? t? ??ng ch?y file schema.sql vï¿½ data.sql khi ?ng d?ng kh?i ??ng
+      encoding: UTF-8                                 # Thi?t l?p encoding ?? trï¿½nh l?i font
+#      schema-locations: classpath:schema.sql  # Chá»‰ Ä‘á»‹nh vá»‹ trÃ­ file schema.sql
+#      data-locations: classpath:data.sql      # Chá»‰ Ä‘á»‹nh vá»‹ trÃ­ file data.sql
+  flyway:
+    enabled: false
 
 logging:
   level:
-    org.hibernate.SQL: DEBUG                          # Hi?n th? câu SQL d??i d?ng DEBUG log
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE # Hi?n th? chi ti?t các giá tr? ???c bind vào SQL
+    org.hibernate.SQL: DEBUG                          # Hi?n th? cï¿½u SQL d??i d?ng DEBUG log
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE # Hi?n th? chi ti?t cï¿½c giï¿½ tr? ???c bind vï¿½o SQL
+
+
+idp:
+  url: http://localhost:8090
+#  client-id: regret_id
+#  client-secret: hFQVSwkSjiS7Sglf3FgQOO51n12otTwG
