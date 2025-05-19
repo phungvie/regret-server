@@ -1,6 +1,8 @@
 package viet.moba.regret.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 @Entity
 public class Profile {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     String profileId;
     // UserId from keycloak
     String userId;

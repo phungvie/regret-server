@@ -1,3 +1,9 @@
+server:
+  port: 8091
+  servlet:
+    context-path: /regret
+
+
 spring:
   application:
     name: regret-server
@@ -6,7 +12,6 @@ spring:
     username: postgres                                # T�n ??ng nh?p PostgreSQL
     password: postgresVIET@regret                                # M?t kh?u c?a t�i kho?n PostgreSQL
     driver-class-name: org.postgresql.Driver          # Driver JDBC cho PostgreSQL
-
   jpa:
     hibernate:
       ddl-auto: update                                # Ch? ?? t?o b?ng: update, create, create-drop, validate
@@ -16,18 +21,22 @@ spring:
         format_sql: true                              # Format SQL cho d? ??c
         dialect: org.hibernate.dialect.PostgreSQLDialect # S? d?ng PostgreSQLDialect
         default_schema: regret_sch
-
   sql:
     init:
       mode: always                                    # Ch? ?? t? ??ng ch?y file schema.sql v� data.sql khi ?ng d?ng kh?i ??ng
       encoding: UTF-8                                 # Thi?t l?p encoding ?? tr�nh l?i font
 #        schema-locations: classpath:schema.sql  # Chỉ định vị trí file schema.sql
 #        data-locations: classpath:data.sql      # Chỉ định vị trí file data.sql
-
 # Kích hoạt Flyway migration
   flyway:
     enabled: false                               # K?t n?i t?i Flyway
     locations: classpath:db/migration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8090/realms/regret
+
 
 logging:
   level:
@@ -37,5 +46,5 @@ logging:
 
 idp:
   url: http://localhost:8090
-  client-id: regret_id
-  client-secret: hFQVSwkSjiS7Sglf3FgQOO51n12otTwG
+  client-id: "regret_client"
+  client-secret: "SXw0OaXfLeagS1Kh6mAjZaye0tASas25"
