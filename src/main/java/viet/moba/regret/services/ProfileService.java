@@ -1,6 +1,8 @@
 package viet.moba.regret.services;
 
 import feign.FeignException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +16,8 @@ import viet.moba.regret.dto.identity.TokenExchangeParam;
 import viet.moba.regret.dto.identity.UserCreationParam;
 import viet.moba.regret.dto.request.RegistrationRequest;
 import viet.moba.regret.dto.response.ProfileResponse;
+import viet.moba.regret.entity.profile.Profile;
+import viet.moba.regret.entity.profile.Status;
 import viet.moba.regret.exception.AppException;
 import viet.moba.regret.exception.ErrorCode;
 import viet.moba.regret.exception.ErrorNormalizer;
@@ -23,6 +27,7 @@ import viet.moba.regret.repository.ProfileRepository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -36,6 +41,8 @@ public class ProfileService {
     @Value("${idp.client-secret}")
     private String CLIENT_SECRET;
     final ProfileMapper profileMapper;
+    @PersistenceContext
+    final EntityManager entityManager;
 
     final ErrorNormalizer errorNormalizer;
 
@@ -68,7 +75,7 @@ public class ProfileService {
 
             var profile = profileMapper.toProfile(request);
             profile.setUserId(userId);
-
+            profile.setStatus(Status.OFFLINE);
             profile = profileRepository.save(profile);
 
             return profileMapper.toProfileResponse(profile);
@@ -88,13 +95,37 @@ public class ProfileService {
     }
 
     public ProfileResponse getMyProfile() {
-        String userId= SecurityContextHolder.getContext().getAuthentication().getName();
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         return profileRepository.findByUserId(userId).map(profileMapper::toProfileResponse).orElseThrow(() -> new AppException(ErrorCode.profile_exist));
     }
-    public ProfileResponse getMyProfile(String id) {
-        return profileRepository.findById(id).map(profileMapper::toProfileResponse).orElseThrow(() -> new AppException(ErrorCode.profile_exist));
+//    public ProfileResponse getMyProfile(String id) {
+//        return profileRepository.findById(id).map(profileMapper::toProfileResponse).orElseThrow(() -> new AppException(ErrorCode.profile_exist));
+//    }
+
+    public Profile disconnect() {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Profile profile = profileRepository.findByUserId(userId).orElseThrow(() -> new AppException(ErrorCode.profile_exist));
+        profile.setStatus(Status.OFFLINE);
+        return profileRepository.save(profile);
     }
 
+    public List<Profile> findConnectedUsers() {
+        return profileRepository.findAllByStatus(Status.ONLINE).stream()
+//                .map(profileMapper::toProfileResponse)
+                .toList();
+    }
+
+    public List<ProfileResponse> findAllEM() {
+        return entityManager.createQuery("from Profile ", Profile.class).getResultList().stream().map(profileMapper::toProfileResponse).toList();
+    }
+
+
+    public Profile connectUser() {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Profile profile = profileRepository.findByUserId(userId).orElseThrow(() -> new AppException(ErrorCode.profile_exist));
+        profile.setStatus(Status.ONLINE);
+        return profileRepository.save(profile);
+    }
 }
 
 

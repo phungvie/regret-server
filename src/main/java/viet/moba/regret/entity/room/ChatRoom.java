@@ -1,4 +1,4 @@
-package viet.moba.regret.entity;
+package viet.moba.regret.entity.room;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,25 +7,19 @@ import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 @Entity
-public class Profile {
+public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    String profileId;
-    // UserId from keycloak
-    String userId;
-    String email;
-    String username;
-    String firstName;
-    String lastName;
-    LocalDate dob;
+    String id;
+    String chatId;//usernameSender_usernameRecipient
+    String senderId;//usernameSender
+    String recipientId;//usernameRecipient
 }
