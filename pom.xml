@@ -8,7 +8,7 @@
 		<version>3.4.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>viet.moba</groupId>
+	<groupId>viet.sn</groupId>
 	<artifactId>regret</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>regret-server</name>
