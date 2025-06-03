@@ -16,7 +16,7 @@ public enum ErrorCode {
     USERNAME_EXISTED(1009,"Username đã tồn tại" , HttpStatus.BAD_REQUEST),
     EMAIL_EXISTED(1010,"Email đã tồn tại" , HttpStatus.BAD_REQUEST),
     USERNAME_IS_MISSING(1011,"Vui lòng nhập username" , HttpStatus.BAD_REQUEST),
-    USERNAME_invalid_length(1012,"Độ dài username phải dài từ 3 đến 255 kí tự" , HttpStatus.BAD_REQUEST)
+    USERNAME_invalid_length(1012,"Độ dài username phải dài từ 3 đến 255 kí tự" , HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

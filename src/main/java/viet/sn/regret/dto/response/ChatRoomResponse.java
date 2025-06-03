@@ -1,4 +1,4 @@
-package viet.sn.regret.entity.chat;
+package viet.sn.regret.dto.response;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,8 +7,6 @@ import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,14 +14,10 @@ import java.util.Date;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
-@Entity
-public class ChatMessage {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+public class ChatRoomResponse {
     String id;
     String chatId;//usernameSender_usernameRecipient
     String senderId;//usernameSender
     String recipientId;//usernameRecipient
-    String content;
-    Date timestamp;
+    String recipientName;//usernameRecipient
 }

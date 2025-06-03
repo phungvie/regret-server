@@ -76,7 +76,7 @@ public class ProfileController {
         return profileService.connectUser();
     }
 
-    @GetMapping("/users")
+    @GetMapping("/connect-users")
     @ResponseBody
     public ApiResponse<List<ProfileResponse>> findConnectedUsers() {
         return ApiResponse.<List<ProfileResponse>>builder()

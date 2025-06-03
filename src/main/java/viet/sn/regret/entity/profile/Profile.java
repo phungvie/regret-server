@@ -25,8 +25,12 @@ public class Profile {
     String userId;
     String email;
     String username;
-    String firstName;
-    String lastName;
+    String firstName;//họ
+    String lastName;//tên
     LocalDate dob;
     Status status;
+
+    public String getFullName() {
+        return firstName+ " " + lastName;
+    }
 }
