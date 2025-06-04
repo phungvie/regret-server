@@ -63,16 +63,32 @@ public class ProfileController {
 
     @MessageMapping("/user.disconnectUser")
     @SendTo("/user/public")
-    public ProfileResponse disconnectUser(
-//            @Payload Profile profile
-    ) {
+    public ProfileResponse disconnectUser() {
         return profileService.disconnect();
     }
 
+    @PostMapping("/disconnectUser")
+    @ResponseBody
+    @SendTo("/user/public")
+    public ProfileResponse disconnectUserH() {
+        return profileService.disconnect();
+    }
+
+
+
+
+
+
     @MessageMapping("/user.connectUser")
     @SendTo("/user/public")
-    public ProfileResponse connectUser(
-    ) {
+    public ProfileResponse connectUser() {
+        return profileService.connectUser();
+    }
+
+    @PostMapping("/connectUser")
+    @ResponseBody
+    @SendTo("/user/public")
+    public ProfileResponse connectUserH() {
         return profileService.connectUser();
     }
 
