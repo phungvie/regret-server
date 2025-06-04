@@ -15,9 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {
             "/profile/register",
-//            "/ws/**",
-//            "/ws",
-//            "/sockjs-node/**"
+            "/ws/**",
+            "/ws",
+            "/sockjs-node/**"
     };
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity httpSecurity) throws Exception {
