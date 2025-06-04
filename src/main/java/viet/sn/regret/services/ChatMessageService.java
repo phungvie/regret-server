@@ -31,6 +31,7 @@ public class ChatMessageService {
                 true
         ).orElseThrow();
         chatMessage.setChatId(chatId);
+        chatMessage.setContent(chatMessage.getContent().trim());
         return chatMessageRepository.save(chatMessage);
     }
 
