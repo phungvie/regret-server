@@ -1,6 +1,8 @@
 package viet.sn.regret.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import viet.sn.regret.dto.response.ChatMessageResponse;
@@ -35,14 +37,12 @@ public class ChatMessageService {
         return chatMessageRepository.save(chatMessage);
     }
 
-    public List<ChatMessageResponse> findChatMessages(String sendId, String recipientId) {
-        var chatId =chatRoomService.getChatRoomId(sendId,recipientId,false);
+    public Page<ChatMessageResponse> findChatMessages(String sendId, String recipientId, int page, int size) {
+        var chatId = chatRoomService.getChatRoomId(sendId, recipientId, false);
         return chatId.map(id -> chatMessageRepository
-                .findByChatId(id)
-                .stream()
+                .findByChatId(id, PageRequest.of(page, size))
                 .map(chatMessageMapper::toChatMessageResponse)
-                .toList()
-        ).orElse(new ArrayList<>());
+        ).orElse(Page.empty());
     }
 
 
