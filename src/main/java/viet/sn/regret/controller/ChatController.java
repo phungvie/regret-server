@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import viet.sn.regret.dto.ApiResponse;
@@ -14,7 +13,6 @@ import viet.sn.regret.dto.event.ChatNotification;
 import viet.sn.regret.dto.response.ChatMessageResponse;
 import viet.sn.regret.dto.response.ChatRoomResponse;
 import viet.sn.regret.entity.chat.ChatMessage;
-import viet.sn.regret.entity.room.ChatRoom;
 import viet.sn.regret.services.ChatMessageService;
 import viet.sn.regret.services.ChatRoomService;
 
@@ -39,7 +37,8 @@ public class ChatController {
                         savedMsg.getId(),
                         savedMsg.getSenderId(),
                         savedMsg.getRecipientId(),
-                        savedMsg.getContent()
+                        savedMsg.getContent(),
+                        savedMsg.getTimestamp()
                 )
         );
     }
@@ -54,7 +53,8 @@ public class ChatController {
                         savedMsg.getId(),
                         savedMsg.getSenderId(),
                         savedMsg.getRecipientId(),
-                        savedMsg.getContent()
+                        savedMsg.getContent(),
+                        savedMsg.getTimestamp()
                 )
         );
     }
