@@ -43,6 +43,15 @@ public class ChatRoomService {
 
     private String createChatId(String senderId, String recipientId) {
         var chatId = String.format("%s_%s", senderId, recipientId);
+        if(senderId.trim().equals(recipientId.trim())){
+            ChatRoom chatRoom = ChatRoom.builder()
+                    .chatId(chatId)
+                    .senderId(senderId)
+                    .recipientId(recipientId)
+                    .build();
+            chatRoomRepository.save(chatRoom);
+            return chatId;
+        }
 
         ChatRoom senderRecipient = ChatRoom.builder()
                 .chatId(chatId)
