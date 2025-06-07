@@ -14,8 +14,6 @@ import viet.sn.regret.repository.ProfileRepository;
 
 import java.sql.Date;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
