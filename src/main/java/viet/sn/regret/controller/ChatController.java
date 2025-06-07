@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import viet.sn.regret.dto.ApiResponse;
 import viet.sn.regret.dto.event.ChatNotification;
-import viet.sn.regret.dto.response.ChatMessageResponse;
 import viet.sn.regret.dto.response.ChatRoomResponse;
 import viet.sn.regret.entity.chat.ChatMessage;
 import viet.sn.regret.services.ChatMessageService;
