@@ -62,10 +62,12 @@ public class ChatController {
 
     @GetMapping("/messages/{senderId}/{recipientId}")
     @ResponseBody
-    public ApiResponse<List<ChatMessageResponse>> findChatMessages(@PathVariable String senderId,
-                                                                   @PathVariable String recipientId) {
-        return ApiResponse.<List<ChatMessageResponse>>builder()
-                .result(chatMessageService.findChatMessages(senderId, recipientId))
+    public ApiResponse<?> findChatMessages(@PathVariable String senderId,
+                                           @PathVariable String recipientId,
+                                           @RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "20") int size) {
+        return ApiResponse.builder()
+                .result(chatMessageService.findChatMessages(senderId, recipientId, page, size))
                 .build();
     }
 
