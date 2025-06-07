@@ -41,7 +41,7 @@ public class ChatMessageService {
     public Page<ChatMessageResponse> findChatMessages(String sendId, String recipientId, int page, int size) {
         var chatId = chatRoomService.getChatRoomId(sendId, recipientId, false);
         return chatId.map(id -> chatMessageRepository
-                .findByChatId(id, PageRequest.of(page, size, Sort.by("timestamp").ascending()))
+                .findByChatId(id, PageRequest.of(page, size, Sort.by("timestamp").descending()))
                 .map(chatMessageMapper::toChatMessageResponse)
         ).orElse(Page.empty());
     }
