@@ -120,7 +120,6 @@ public class ProfileService {
 
 
     public ProfileResponse connectUser() {
-        var viet =SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         Profile profile = profileRepository.findByUserId(userId).orElseThrow(() -> new AppException(ErrorCode.profile_exist));
         profile.setStatus(Status.ONLINE);
