@@ -60,35 +60,19 @@ public class ProfileController {
 
 
     //websocket methods
-
+    @PostMapping("/disconnectUser")
+    @ResponseBody
     @MessageMapping("/user.disconnectUser")
     @SendTo("/user/public")
     public ProfileResponse disconnectUser() {
         return profileService.disconnect();
     }
 
-    @PostMapping("/disconnectUser")
+    @PostMapping("/connectUser")
     @ResponseBody
-    @SendTo("/user/public")
-    public ProfileResponse disconnectUserH() {
-        return profileService.disconnect();
-    }
-
-
-
-
-
-
     @MessageMapping("/user.connectUser")
     @SendTo("/user/public")
     public ProfileResponse connectUser() {
-        return profileService.connectUser();
-    }
-
-    @PostMapping("/connectUser")
-    @ResponseBody
-    @SendTo("/user/public")
-    public ProfileResponse connectUserH() {
         return profileService.connectUser();
     }
 
