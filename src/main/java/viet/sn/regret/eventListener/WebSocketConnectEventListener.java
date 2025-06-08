@@ -11,7 +11,7 @@ public class WebSocketConnectEventListener implements ApplicationListener<Sessio
     @Override
     public void onApplicationEvent(SessionConnectEvent event) {
         String sessionId = event.toString();
-        System.out.println("❌ Ngắt kết nối WebSocket: sessionId = " + sessionId);
+        System.out.println(":D kết nối WebSocket: sessionId = " + sessionId);
 
         // Nếu bạn đang lưu username <-> sessionId, có thể xóa ở đây
         // Ví dụ: onlineUserRegistry.removeBySessionId(sessionId);

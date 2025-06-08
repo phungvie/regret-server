@@ -28,7 +28,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")// Đăng ký endpoint cho WebSocket
                 .setAllowedOriginPatterns("http://localhost:3000") // Dùng setAllowedOriginPatterns thay cho setAllowedOrigins
-                .withSockJS();
+//                .withSockJS()
+        ;
     }
 
     @Override
@@ -42,3 +43,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         return false;// chỉ thêm converter mói không loại bỏ các converters mặc định
     }
 }
+

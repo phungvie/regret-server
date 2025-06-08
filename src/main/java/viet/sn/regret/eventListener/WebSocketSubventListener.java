@@ -11,6 +11,7 @@ public class WebSocketSubventListener implements ApplicationListener<SessionSubs
     @Override
     public void onApplicationEvent(SessionSubscribeEvent event) {
         String sessionId = event.toString();
+        System.out.println(":> SubWebSocket: sessionId = " + sessionId);
     }
 }
 

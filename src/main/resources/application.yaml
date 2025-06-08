@@ -1,7 +1,7 @@
 server:
   port: 8091
-  servlet:
-    context-path: /regret
+#  servlet:
+#    context-path: /regret
 
 
 spring:
@@ -15,10 +15,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update                                # Ch? ?? t?o b?ng: update, create, create-drop, validate
-    show-sql: true                                    # Hi?n th? c�u l?nh SQL trong console
+    show-sql: false                                    # Hi?n th? c�u l?nh SQL trong console
     properties:
       hibernate:
-        format_sql: true                              # Format SQL cho d? ??c
+        format_sql: false                              # Format SQL cho d? ??c
         dialect: org.hibernate.dialect.PostgreSQLDialect # S? d?ng PostgreSQLDialect
         default_schema: regret_sch
   sql:
@@ -33,7 +33,7 @@ spring:
     locations: classpath:db/migration
   security:
     oauth2:
-      resourceserver:
+      resource server:
         jwt:
           issuer-uri: http://localhost:8090/realms/regret
 
