@@ -73,7 +73,7 @@ public class ChatRoomService {
         List<ChatRoom> chatRooms = chatRoomRepository.findAllBySenderId(profileRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow().getProfileId());
         return chatRooms.stream().map(chatRoom -> {
             ChatRoomResponse chatRoomResponse = chatRoomMapper.toChatRoomResponse(chatRoom);
-            chatRoomResponse.setRecipientName(profileRepository.findById(chatRoomResponse.getRecipientId()).orElseThrow(() -> new AppException(ErrorCode.profile_exist)).getFullName());
+            chatRoomResponse.setRecipientName(profileRepository.findById(chatRoomResponse.getRecipientId()).orElseThrow(() -> new AppException(ErrorCode.profile_exist)).getUsername());
             return chatRoomResponse;
         }).toList();
     }
