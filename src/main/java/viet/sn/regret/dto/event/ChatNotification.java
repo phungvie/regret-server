@@ -14,7 +14,7 @@ import java.util.Date;
 public class ChatNotification {
     private String id;
     private String senderId;
-    private String recipientId;
+    private String roomId;
     private String content;
     private Date timestamp;
 }

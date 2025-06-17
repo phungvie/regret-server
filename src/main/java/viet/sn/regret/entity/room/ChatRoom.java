@@ -19,7 +19,6 @@ public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
-    String chatId;//usernameSender_usernameRecipient
-    String senderId;//usernameSender
-    String recipientId;//usernameRecipient
+    String name;
+    RoomType type;
 }

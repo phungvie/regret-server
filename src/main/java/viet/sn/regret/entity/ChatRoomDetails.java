@@ -1,4 +1,4 @@
-package viet.sn.regret.dto.response;
+package viet.sn.regret.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,7 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import viet.sn.regret.entity.room.RoomType;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,8 +14,12 @@ import viet.sn.regret.entity.room.RoomType;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
-public class ChatRoomResponse {
-    String id;
-    String name;
-    RoomType type;
+@Entity
+public class ChatRoomDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
+    String profileId;
+    String roomId;
+
 }

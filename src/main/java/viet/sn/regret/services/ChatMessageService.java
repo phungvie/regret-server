@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import viet.sn.regret.dto.request.ChatMessageRequest;
 import viet.sn.regret.dto.response.ChatMessageResponse;
 import viet.sn.regret.entity.chat.ChatMessage;
 import viet.sn.regret.mapper.ChatMessageMapper;
@@ -14,6 +15,7 @@ import viet.sn.regret.repository.ProfileRepository;
 
 import java.sql.Date;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,26 +25,27 @@ public class ChatMessageService {
     final ProfileRepository profileRepository;
     private final ChatMessageMapper chatMessageMapper;
 
-    public ChatMessage save(ChatMessage chatMessage) {
-        chatMessage.setTimestamp(Date.from(Instant.now()));
-        chatMessage.setSenderId(profileRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow().getProfileId());
-        var chatId = chatRoomService.getChatRoomId(
-                chatMessage.getSenderId(),
-                chatMessage.getRecipientId(),
+    public List<ChatMessageResponse> save(ChatMessageRequest chatMessageRequest) {
+        chatMessageRequest.setTimestamp(Date.from(Instant.now()));
+        chatMessageRequest.setSenderId(profileRepository.findByUserId(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow().getProfileId());
+        List<String> roomIds = chatRoomService.getChatRoomId(
+                chatMessageRequest,
                 true
-        ).orElseThrow();
-        chatMessage.setChatId(chatId);
-        chatMessage.setContent(chatMessage.getContent().trim());
-        return chatMessageRepository.save(chatMessage);
+        );
+        return chatMessageRepository.saveAll(roomIds.stream().map(s ->
+                ChatMessage.builder()
+                        .roomId(s)
+                        .content(chatMessageRequest.getContent().trim()).build()
+        ).toList()).stream().map(chatMessageMapper::toChatMessageResponse).toList();
     }
 
-    public Page<ChatMessageResponse> findChatMessages(String sendId, String recipientId, int page, int size) {
-        var chatId = chatRoomService.getChatRoomId(sendId, recipientId, false);
-        return chatId.map(id -> chatMessageRepository
-                .findByChatId(id, PageRequest.of(page, size, Sort.by("timestamp").descending()))
-                .map(chatMessageMapper::toChatMessageResponse)
-        ).orElse(Page.empty());
-    }
+//    public Page<ChatMessageResponse> findChatMessages(String sendId, String recipientId, int page, int size) {
+//        var chatId = chatRoomService.getChatRoomId(sendId, recipientId, false);
+//        return chatId.map(id -> chatMessageRepository
+//                .findByChatId(id, PageRequest.of(page, size, Sort.by("timestamp").descending()))
+//                .map(chatMessageMapper::toChatMessageResponse)
+//        ).orElse(Page.empty());
+//    }
 
 
 }

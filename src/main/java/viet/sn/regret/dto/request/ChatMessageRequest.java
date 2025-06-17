@@ -1,9 +1,5 @@
-package viet.sn.regret.dto.response;
+package viet.sn.regret.dto.request;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,11 +12,12 @@ import java.util.List;
 @Setter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
-public class ChatMessageResponse {
+public class ChatMessageRequest {
     String id;
     String senderId;
     String roomId;
     String content;
     Date timestamp;
+    List<String> targets;
+
 }

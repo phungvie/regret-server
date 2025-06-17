@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import viet.sn.regret.dto.ApiResponse;
 import viet.sn.regret.dto.event.ChatNotification;
+import viet.sn.regret.dto.request.ChatMessageRequest;
+import viet.sn.regret.dto.response.ChatMessageResponse;
 import viet.sn.regret.dto.response.ChatRoomResponse;
 import viet.sn.regret.entity.chat.ChatMessage;
 import viet.sn.regret.services.ChatMessageService;
@@ -27,56 +29,75 @@ public class ChatController {
     final ChatRoomService chatRoomService;
 
     @MessageMapping("/chat")
-    public void processMessage(@Payload ChatMessage chatMessage) {
-        ChatMessage savedMsg = chatMessageService.save(chatMessage);
+    public void processMessage(@Payload ChatMessageRequest chatMessageRequest) {
+        List<ChatMessageResponse> savedMsgs = chatMessageService.save(chatMessageRequest);
+
+
         simpMessagingTemplate.convertAndSendToUser(
-                chatMessage.getRecipientId(),
+                chatMessageRequest.getSenderId(),
                 "/queue/messages",
                 new ChatNotification(
-                        savedMsg.getId(),
-                        savedMsg.getSenderId(),
-                        savedMsg.getRecipientId(),
-                        savedMsg.getContent(),
-                        savedMsg.getTimestamp()
+                        chatMessageRequest.getId(),
+                        chatMessageRequest.getSenderId(),
+                        chatMessageRequest.getRoomId(),
+                        chatMessageRequest.getContent(),
+                        chatMessageRequest.getTimestamp()
                 )
         );
-    }
-    @PostMapping("/chat")
-    @ResponseBody
-    public void processMessage2(@RequestBody ChatMessage chatMessage) {
-        ChatMessage savedMsg = chatMessageService.save(chatMessage);
-        simpMessagingTemplate.convertAndSendToUser(
-                chatMessage.getRecipientId(),
-                "/queue/messages",
-                new ChatNotification(
-                        savedMsg.getId(),
-                        savedMsg.getSenderId(),
-                        savedMsg.getRecipientId(),
-                        savedMsg.getContent(),
-                        savedMsg.getTimestamp()
-                )
-        );
-    }
 
-
-    @GetMapping("/messages/{senderId}/{recipientId}")
-    @ResponseBody
-    public ApiResponse<?> findChatMessages(@PathVariable String senderId,
-                                           @PathVariable String recipientId,
-                                           @RequestParam(defaultValue = "0") int page,
-                                           @RequestParam(defaultValue = "20") int size) {
-        return ApiResponse.builder()
-                .result(chatMessageService.findChatMessages(senderId, recipientId, page, size))
-                .build();
-    }
-
-    @GetMapping("/my-chat-rooms")
-    @ResponseBody
-    public ApiResponse<List<ChatRoomResponse>> findMyChatRooms() {
-        return ApiResponse.<List<ChatRoomResponse>>builder()
-                .result(chatRoomService.findMyChatRooms())
-                .build();
+        //gửi thông báo đến tất cả người dùng trong phòng chat
+        for (ChatMessageResponse savedMsg : savedMsgs) {
+            simpMessagingTemplate.convertAndSendToUser(
+                    "",
+                    "/queue/messages",
+                    new ChatNotification(
+                            savedMsg.getId(),
+                            savedMsg.getSenderId(),
+                            savedMsg.getRoomId(),
+                            savedMsg.getContent(),
+                            savedMsg.getTimestamp()
+                    )
+            );
+        }
 
     }
+//
+//    @PostMapping("/chat")
+//    @ResponseBody
+//    public void processMessage2(@RequestBody ChatMessage chatMessage) {
+//        ChatMessage savedMsg = chatMessageService.save(chatMessage);
+//        simpMessagingTemplate.convertAndSendToUser(
+//                chatMessage.getRecipientId(),
+//                "/queue/messages",
+//                new ChatNotification(
+//                        savedMsg.getId(),
+//                        savedMsg.getSenderId(),
+//                        savedMsg.getRecipientId(),
+//                        savedMsg.getContent(),
+//                        savedMsg.getTimestamp()
+//                )
+//        );
+//    }
+//
+//
+//    @GetMapping("/messages/{senderId}/{recipientId}")
+//    @ResponseBody
+//    public ApiResponse<?> findChatMessages(@PathVariable String senderId,
+//                                           @PathVariable String recipientId,
+//                                           @RequestParam(defaultValue = "0") int page,
+//                                           @RequestParam(defaultValue = "20") int size) {
+//        return ApiResponse.builder()
+//                .result(chatMessageService.findChatMessages(senderId, recipientId, page, size))
+//                .build();
+//    }
+//
+//    @GetMapping("/my-chat-rooms")
+//    @ResponseBody
+//    public ApiResponse<List<ChatRoomResponse>> findMyChatRooms() {
+//        return ApiResponse.<List<ChatRoomResponse>>builder()
+//                .result(chatRoomService.findMyChatRooms())
+//                .build();
+//
+//    }
 
 }
