@@ -101,8 +101,7 @@ public class ProfileService {
 //        return profileRepository.findById(id).map(profileMapper::toProfileResponse).orElseThrow(() -> new AppException(ErrorCode.profile_exist));
 //    }
 
-    public ProfileResponse disconnect() {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+    public ProfileResponse disconnect(String userId) {
         Profile profile = profileRepository.findByUserId(userId).orElseThrow(() -> new AppException(ErrorCode.profile_exist));
         profile.setStatus(Status.OFFLINE);
         return profileMapper.toProfileResponse(profileRepository.save(profile));
@@ -119,8 +118,7 @@ public class ProfileService {
     }
 
 
-    public ProfileResponse connectUser() {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+    public ProfileResponse connectUser(String userId) {
         Profile profile = profileRepository.findByUserId(userId).orElseThrow(() -> new AppException(ErrorCode.profile_exist));
         profile.setStatus(Status.ONLINE);
         return profileMapper.toProfileResponse(profileRepository.save(profile));

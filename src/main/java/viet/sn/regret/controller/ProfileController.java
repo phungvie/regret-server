@@ -12,6 +12,7 @@ import viet.sn.regret.dto.request.RegistrationRequest;
 import viet.sn.regret.dto.response.ProfileResponse;
 import viet.sn.regret.services.ProfileService;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -64,16 +65,16 @@ public class ProfileController {
     @ResponseBody
     @MessageMapping("/user.disconnectUser")
     @SendTo("/user/public")
-    public ProfileResponse disconnectUser() {
-        return profileService.disconnect();
+    public ProfileResponse disconnectUser(Principal principal) {
+        return profileService.disconnect(principal.getName());
     }
 
     @PostMapping("/connectUser")
     @ResponseBody
     @MessageMapping("/user.connectUser")
     @SendTo("/user/public")
-    public ProfileResponse connectUser() {
-        return profileService.connectUser();
+    public ProfileResponse connectUser(Principal principal) {
+        return profileService.connectUser(principal.getName());
     }
 
     @GetMapping("/connect-users")
